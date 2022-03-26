@@ -1,6 +1,11 @@
 <?php
     $path = dirname(__FILE__, 2);
     require("$path/assets/php/start.php");
+    require("$path/assets/php/MinecraftPing.php");
+    require("$path/assets/php/MinecraftPingException.php");
+
+    use xPaw\MinecraftPing;
+	use xPaw\MinecraftPingException;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -41,44 +46,81 @@
 
                         for($i=0; $i < $count; $i++) {
                             $row = $stmt->fetch();
-                            echo "
-                                <div>
+
+                            try
+                            {
+                                $Query = new MinecraftPing($row["ip"], $row["port"]);
+                                
+                                $playerInfo = $Query->Query()["players"];
+                                $maxPlayers = $playerInfo["max"];
+                                $onlinePlayers = $playerInfo["online"];
+
+                                if($row["status"] == "online") {
+                                    echo "
+                                        <div class='$row[id]'>
+                                            <div class='left'>
+                                                <h1>$row[display_name]</h1>
+                                            </div>
+                                            <div class='right'>
+                                                <div class='top'>
+                                                    <h2 class='online'>Online</h2>
+                                                    <img src='./assets/img/online.png'>
+                                                </div>
+                                                <div class='bottom'>
+                                                <h3>$onlinePlayers/$maxPlayers Players</h3>
+                                                </div>
+                                            </div>
+                                            <div class='edit'>
+                                                <h3>Edit</h3>
+                                            </div>
+                                        </div>
+                                        ";
+                                } else {
+                                    echo "
+                                    <div class='$row[id]'>
+                                        <div class='left'>
+                                            <h1>$row[display_name]</h1>
+                                        </div>
+                                        <div class='right'>
+                                            <div class='top'>
+                                                <h2 class='maintenance'>Maintenance</h2>
+                                                <img src='./assets/img/maintenance.png'>
+                                            </div>
+                                            <div class='bottom'>
+                                            <h3>0/$maxPlayers Players</h3>
+                                            </div>
+                                        </div>
+                                        <div class='edit'>
+                                            <h3>Edit</h3>
+                                        </div>
+                                    </div>
+                                    ";
+                                }
+                            }
+                            catch( MinecraftPingException $e )
+                            {
+                                echo "
+                                <div class='$row[id]'>
                                     <div class='left'>
                                         <h1>$row[display_name]</h1>
                                     </div>
                                     <div class='right'>
                                         <div class='top'>
-                                            <h2 class='online'>Online</h2>
-                                            <img src='./assets/img/online.png'>
+                                            <h2 class='offline'>Offline</h2>
+                                            <img src='./assets/img/offline.png'>
                                         </div>
                                         <div class='bottom'>
-                                            <h3>10/10 Players</h3>
+                                        <h3>0/0 Players</h3>
                                         </div>
                                     </div>
                                     <div class='edit'>
                                         <h3>Edit</h3>
                                     </div>
                                 </div>
-                                 ";
+                                ";
+                            }
                         }
                     ?>
-                    <div>
-                        <div class="left">
-                            <h1>Test Server</h1>
-                        </div>
-                        <div class="right">
-                            <div class="top">
-                                <h2 class="online">Online</h2>
-                                <img src="./assets/img/online.png">
-                            </div>
-                            <div class="bottom">
-                                <h3>10/10 Players</h3>
-                            </div>
-                        </div>
-                        <div class="edit">
-                            <h3>Edit</h3>
-                        </div>
-                    </div>
                 </div>
             </main>
             <!--------------- END OF MAIN -------------->
