@@ -1,7 +1,7 @@
 const themeToggler = document.querySelector(".theme-toggler");
+const statusDivs = document.querySelectorAll("main .status > div");
 
 // change theme
-
 if(sessionStorage.getItem("theme") == "dark") {
     document.body.classList.toggle('dark-theme-variables');
 
@@ -21,3 +21,10 @@ themeToggler.addEventListener('click', () => {
         sessionStorage.setItem("theme", "dark");
     }
 })
+
+//Edit Status
+statusDivs.forEach(e => {
+    e.addEventListener("click", () => {
+        window.location = "/status?id="+e.classList.value;
+    })
+});
