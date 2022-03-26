@@ -37,9 +37,9 @@
                         <?php require("$path/assets/moduls/profile.php")?>
                     </div>
                 </div>
-
-                <div class="status">
-                    <?php 
+                <?php
+                    if(isset($_GET["id"])) {
+                        echo '<div class="status">';
                         $stmt = $mysql->query("SELECT * FROM `status` ORDER BY `order_id` ASC");
                         $stmt->execute();
                         $count = $stmt->rowCount();
@@ -120,7 +120,14 @@
                                 ";
                             }
                         }
-                    ?>
+                        echo "</div>";
+                    }
+                ?>
+                <div class="status-edit">
+                    <h3>Lobby</h3>
+                    <form>
+                        <input type="">
+                    </form>
                 </div>
             </main>
             <!--------------- END OF MAIN -------------->
