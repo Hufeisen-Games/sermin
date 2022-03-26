@@ -34,6 +34,34 @@
                 </div>
 
                 <div class="status">
+                    <?php 
+                        $stmt = $mysql->query("SELECT * FROM `status` ORDER BY `order_id` ASC");
+                        $stmt->execute();
+                        $count = $stmt->rowCount();
+
+                        for($i=0; $i < $count; $i++) {
+                            $row = $stmt->fetch();
+                            echo "
+                                <div>
+                                    <div class='left'>
+                                        <h1>$row[display_name]</h1>
+                                    </div>
+                                    <div class='right'>
+                                        <div class='top'>
+                                            <h2 class='online'>Online</h2>
+                                            <img src='./assets/img/online.png'>
+                                        </div>
+                                        <div class='bottom'>
+                                            <h3>10/10 Players</h3>
+                                        </div>
+                                    </div>
+                                    <div class='edit'>
+                                        <h3>Edit</h3>
+                                    </div>
+                                </div>
+                                 ";
+                        }
+                    ?>
                     <div>
                         <div class="left">
                             <h1>Test Server</h1>
@@ -42,57 +70,6 @@
                             <div class="top">
                                 <h2 class="online">Online</h2>
                                 <img src="./assets/img/online.png">
-                            </div>
-                            <div class="bottom">
-                                <h3>10/10 Players</h3>
-                            </div>
-                        </div>
-                        <div class="edit">
-                            <h3>Edit</h3>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="left">
-                            <h1>Test Server 2</h1>
-                        </div>
-                        <div class="right">
-                            <div class="top">
-                                <h2 class="maintenance">Maintenance</h2>
-                                <img src="./assets/img/maintenance.png">
-                            </div>
-                            <div class="bottom">
-                                <h3>10/10 Players</h3>
-                            </div>
-                        </div>
-                        <div class="edit">
-                            <h3>Edit</h3>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="left">
-                            <h1>Test Server 3</h1>
-                        </div>
-                        <div class="right">
-                            <div class="top">
-                                <h2 class="offline">Offline</h2>
-                                <img src="./assets/img/offline.png">
-                            </div>
-                            <div class="bottom">
-                                <h3>10/10 Players</h3>
-                            </div>
-                        </div>
-                        <div class="edit">
-                            <h3>Edit</h3>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="left">
-                            <h1>Test Server 3</h1>
-                        </div>
-                        <div class="right">
-                            <div class="top">
-                                <h2 class="offline">Offline</h2>
-                                <img src="./assets/img/offline.png">
                             </div>
                             <div class="bottom">
                                 <h3>10/10 Players</h3>
