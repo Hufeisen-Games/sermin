@@ -1,5 +1,6 @@
 const themeToggler = document.querySelector(".theme-toggler");
 const statusDivs = document.querySelectorAll("main .status > div");
+const statusBacks = document.querySelectorAll("main .status-edit .top span");
 
 // change theme
 if(sessionStorage.getItem("theme") == "dark") {
@@ -26,5 +27,12 @@ themeToggler.addEventListener('click', () => {
 statusDivs.forEach(e => {
     e.addEventListener("click", () => {
         window.location = "/status?id="+e.classList.value;
+    })
+});
+
+//Status Settings Back
+statusBacks.forEach(e => {
+    e.addEventListener("click", () => {
+        window.location = "/status";
     })
 });

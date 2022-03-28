@@ -38,7 +38,7 @@
                     </div>
                 </div>
                 <?php
-                    if(isset($_GET["id"])) {
+                    if(!isset($_GET["id"])) {
                         echo '<div class="status">';
                         $stmt = $mysql->query("SELECT * FROM `status` ORDER BY `order_id` ASC");
                         $stmt->execute();
@@ -121,14 +121,63 @@
                             }
                         }
                         echo "</div>";
+                    } else {
+                        $stmt = $mysql->prepare("SELECT * FROM `status` WHERE id = :id");
+                        $id = str_replace("'", "-", $_GET["id"]);
+                        $stmt->bindParam(":id", $_GET["id"]);
+                        $stmt->execute();
+    
+                        $row = $stmt->fetch();
+
+                        $public = "";
+                        $maintenance = "";
+
+                        if($row['status'] == "maintenance") {
+                            $maintenance = "checked";
+                        }
+                        if($row['public'] == "1") {
+                            $public = "checked";
+                        }
+
+                        echo "
+                            <div class='status-edit'>
+                                <div class='top'>
+                                <span class='material-icons-sharp'>keyboard_backspace</span>
+                                    <h3>$row[display_name]</h3>
+                                </div>
+                                <form>
+                                    <div class='form-group'>
+                                        <label for='display_name'>Display Name</label>
+                                        <input value='$row[display_name]' id='display_name' name='display_name' type='text' placeholder='server' required>
+                                    </div>
+                                    <div class='form-group'>
+                                        <label for='ip'>IP Adress</label>
+                                        <input value='$row[ip]' id='ip' name='ip' type='text' placeholder='127.0.0.1' required>
+                                    </div>
+                                    <div class='form-group'>
+                                        <label for='port'>Port</label>
+                                        <input value='$row[port]' id='port' name='port' type='number' placeholder='25565' required>
+                                    </div>
+                                    <div class='checkboxes'>
+                                        <div title='Is the page available on the public status page?'>
+                                            <label for='ispublic'>Public
+                                                <input id='ispublic' name='ispublic' type='checkbox' $public>
+                                                <span class='checkmark'></span>
+                                            </label>
+                                        </div>
+                                        <div title='Is the server in maintenance on the status page?'>
+                                            <label for='ismaintenance'>Maintenance
+                                                <input id='ismaintenance' name='isinmaintenance' type='checkbox' $maintenance>
+                                                <span class='checkmark'></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <input class='submit' type='submit'>
+                                </form>
+                            </div>
+                            ";
                     }
                 ?>
-                <div class="status-edit">
-                    <h3>Lobby</h3>
-                    <form>
-                        <input type="">
-                    </form>
-                </div>
             </main>
             <!--------------- END OF MAIN -------------->
         </div>
